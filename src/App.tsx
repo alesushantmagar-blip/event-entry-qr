@@ -122,10 +122,14 @@ function App() {
       setPaid(true)
       setStatus('confirmed')
     } catch (err: any) {
-      console.error('Payment error:', err)
+      console.error('Payment error (full object):', err)
       console.error('Error message:', err?.message)
+      console.error('Error.error (nested):', err?.error)
+      console.error('Error.error.message:', err?.error?.message)
       console.error('Error logs:', err?.logs)
       console.error('Error cause:', err?.cause)
+      console.error('Error name:', err?.name)
+      console.error('All own keys:', Object.keys(err || {}))
       setStatus('error')
     }
   }
