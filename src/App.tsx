@@ -121,8 +121,11 @@ function App() {
 
       setPaid(true)
       setStatus('confirmed')
-    } catch (err) {
-      console.error(err)
+    } catch (err: any) {
+      console.error('Payment error:', err)
+      console.error('Error message:', err?.message)
+      console.error('Error logs:', err?.logs)
+      console.error('Error cause:', err?.cause)
       setStatus('error')
     }
   }
