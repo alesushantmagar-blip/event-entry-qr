@@ -60,10 +60,22 @@ body {
   z-index: 0;
 }
 
-.app-header,
+.app-header {
+  position: relative;
+  z-index: 20;
+}
+
 .ticket {
   position: relative;
   z-index: 1;
+}
+
+/* Wallet dropdown must render above everything else on the page */
+.wallet-adapter-dropdown-list {
+  z-index: 100 !important;
+}
+.wallet-adapter-modal {
+  z-index: 100 !important;
 }
 
 .app-header {

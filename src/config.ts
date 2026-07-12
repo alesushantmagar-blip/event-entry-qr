@@ -1,13 +1,15 @@
 import { address, createSolanaRpc } from '@solana/kit'
 
-export const rpc = createSolanaRpc('https://api.devnet.solana.com')
+const HELIUS_RPC_URL = import.meta.env.VITE_HELIUS_RPC_URL || 'https://api.devnet.solana.com'
+
+export const rpc = createSolanaRpc(HELIUS_RPC_URL)
 
 export const MERCHANT_WALLET = address('8MqW5jP5qvKECuazcsbvPg7yQJh4tZki8MywqtNDgjQL')
 export const MERCHANT_WALLET_STR = '8MqW5jP5qvKECuazcsbvPg7yQJh4tZki8MywqtNDgjQL'
 
 // USDC is the source-of-truth price for the entry fee (stable, easy to
 // reason about). The SOL price is derived live so both currencies charge
-// the same real-world value — see src/lib/price.ts.
+// the same real-world value -- see src/lib/price.ts.
 export const ENTRY_FEE_USDC = 0.01 // = 1 cent
 
 // Used only if the live SOL price fetch fails, so the app still works.
