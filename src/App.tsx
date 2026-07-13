@@ -4,7 +4,7 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import { PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js'
 import {
   getAssociatedTokenAddress,
-  createAssociatedTokenAccountInstruction,
+  createAssociatedTokenAccountIdempotentInstruction,
   createTransferInstruction,
 } from '@solana/spl-token'
 import { generatePaymentRequest } from './lib/payment'
@@ -101,12 +101,12 @@ function App() {
 
         const transaction = new Transaction()
 
-        const merchantAccountInfo = await connection.getAccountInfo(merchantATA)
-        if (!merchantAccountInfo) {
-          transaction.add(
-            createAssociatedTokenAccountInstruction(publicKey, merchantATA, merchantPubkey, usdcMint)
-          )
-        }
+        // Idempotent: safely does nothing if the account already exists,
+        // instead of failing when it does (which was causing Phantom to
+        // reject the whole transaction with a generic error).
+        transaction.add(
+          createAssociatedTokenAccountIdempotentInstruction(publicKey, merchantATA, merchantPubkey, usdcMint)
+        )
 
         const amountInBaseUnits = Math.round(payment.totalAmount * 10 ** USDC_DECIMALS)
         transaction.add(
